@@ -29,3 +29,15 @@
     background-repeat: no-repeat;
     z-index: -1;
 }
+.mirage{
+    background-image: url('../img/mirage1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+.nuke{
+    background-image: url('../img/nuke1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+}

@@ -1,0 +1,1 @@
+alert("Por ahora no esta disponible este mapa. Proximamente en las siguientes entregas. Lo requerido para la segunda PreEntrega está en el primer mapa: Inferno");
