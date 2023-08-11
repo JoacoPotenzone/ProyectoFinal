@@ -41,3 +41,36 @@
     background-repeat: no-repeat;
     z-index: -1;
 }
+.diana{
+    width: 50px;
+    height: 50px;
+    background-color: #ff0000db;
+    border-radius: 50px;
+    margin: 3.5rem 0 0 0;
+}
+.terrorist{
+    padding: 0 0 0 10rem;
+}
+
+.terrorist img{
+    width: 200px;
+}
+.container{
+    display: flex;
+}
+.containerDiana{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.containerTerrorist{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+.teemo img{
+    width: 150px;
+}
+.hidden{
+    display: none;
+}

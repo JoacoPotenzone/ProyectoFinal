@@ -3,13 +3,13 @@
 //Seguramente para la 3er preEntrega ya pueda mostrar bien mi idea del proyecto, la idea es que aparezcan objetivos en la
 //página y clickeando con el click izquiero del mouse los puedas derribar.
 
-alert("¡Bienvenido al mapa de Inferno de sim-AIM!");
-// alert("El objetivo de este juego es hacer la mayor cantidad de puntos posibles");
-// alert("Mientras más des en el blanco más puntos vas a obtener");
-// alert("Pero ¡OJO! hay objetivos que restan puntos, debes evitar pegarle a: los gatitos, los niños y las tortas. ¿Empezamos?")
+// alert("¡Bienvenido al mapa de Inferno de sim-AIM!");
+// // alert("El objetivo de este juego es hacer la mayor cantidad de puntos posibles");
+// // alert("Mientras más des en el blanco más puntos vas a obtener");
+// // alert("Pero ¡OJO! hay objetivos que restan puntos, debes evitar pegarle a: los gatitos, los niños y las tortas. ¿Empezamos?")
 
-alert("En esta beta del juego vas a poder elegir entre 3 armas y 3 objetivos");
-alert("la consola te va a devolver con cuanto disparos puedes derribar cada objetivo");
+// alert("En esta beta del juego vas a poder elegir entre 3 armas y 3 objetivos");
+// alert("la consola te va a devolver con cuanto disparos puedes derribar cada objetivo");
 
 
 
@@ -61,7 +61,7 @@ for (const item of target) {
       name: 'Terrorist',
       armor: 100,
       remainArmor: 100,
-      quantity: 5
+      quantity: 3
     };
     target[0] = terroProp;
 };
@@ -71,7 +71,7 @@ for (const item of target) {
       name: 'DartBoard',
       armor: 50,
       remain: 50,
-      quantity: 15
+      quantity: 5
     };
     target[1] = dartProp;
 };
@@ -91,54 +91,78 @@ console.log(target);
 // Para que el usuario elija su arma.
 
 
-let chWeapon = prompt("Elige tu arma entre AK-47, Desert Eagle y M4:");
+// let chWeapon = prompt("Elige tu arma entre AK-47, Desert Eagle y M4:");
   
-const foundWeapon = weapon.find(arma => arma.name === chWeapon);
+// const foundWeapon = weapon.find(arma => arma.name === chWeapon);
 
 //Validación para saber si se escribio correctamente.
     
-if (foundWeapon) {
-        console.log("-----------------");
-        console.log("Elegiste el: ", foundWeapon.name);
-    }else{
-        console.log("-----------------");
-        console.log("Arma no encontrada o mal escrita.");
-        alert("Por favor ingrese nuevamente el nombre del arma, tal cual como está escrito.");
-    }
+// if (foundWeapon) {
+//         console.log("-----------------");
+//         console.log("Elegiste el: ", foundWeapon.name);
+//     }else{
+//         console.log("-----------------");
+//         console.log("Arma no encontrada o mal escrita.");
+//         alert("Por favor ingrese nuevamente el nombre del arma, tal cual como está escrito.");
+//     }
 
 //Para que el usuario elija su objetivo
 
-let chTarget = prompt("Elige tu objetivo entre Terrorist, DartBoard y Teemo")
+// let chTarget = prompt("Elige tu objetivo entre Terrorist, DartBoard y Teemo")
 
-const foundTarget = target.find(objetivo => objetivo.name === chTarget);
+// const foundTarget = target.find(objetivo => objetivo.name === chTarget);
 
-if(foundTarget){
-    console.log("-----------------");
-    console.log("Elegiste a: " + foundTarget.name + " como objetivo");
-    console.log("-----------------");
-}else{
-    console.log("-----------------");
-    console.log("Objetivo no encontrado o mal escrito.");
-    alert("Por favor ingrese nuevamente el nombre del objetivo, tal cual como está escrito.")
-}
+// if(foundTarget){
+//     console.log("-----------------");
+//     console.log("Elegiste a: " + foundTarget.name + " como objetivo");
+//     console.log("-----------------");
+// }else{
+//     console.log("-----------------");
+//     console.log("Objetivo no encontrado o mal escrito.");
+//     alert("Por favor ingrese nuevamente el nombre del objetivo, tal cual como está escrito.")
+// }
 
-while(foundWeapon.bullets > 0 && foundTarget.armor > 0 ){
-    const damage = foundWeapon.damage;
+// while(foundWeapon.bullets > 0 && foundTarget.armor > 0 ){
+//     const damage = foundWeapon.damage;
 
-    if(foundTarget.armor > 0){
-        foundTarget.armor -= damage;
-        if(foundTarget.armor <= 0){
-            const leftBullets = foundWeapon.remainBullets - foundWeapon.bullets;
-            console.log(`¡Derribaste al objetivo ${foundTarget.name} con ${leftBullets} balas!`);
-            const currentBullets = foundWeapon.remainBullets - leftBullets;
-            console.log(`Balas restantes: ${currentBullets}.`)
-        }else{
+//     if(foundTarget.armor > 0){
+//         foundTarget.armor -= damage;
+//         if(foundTarget.armor <= 0){
+//             const leftBullets = foundWeapon.remainBullets - foundWeapon.bullets;
+//             console.log(`¡Derribaste al objetivo ${foundTarget.name} con ${leftBullets} balas!`);
+//             const currentBullets = foundWeapon.remainBullets - leftBullets;
+//             console.log(`Balas restantes: ${currentBullets}.`)
+//         }else{
             
-            console.log(`Le diste al objetivo ${foundTarget.name}. Armadura restante: ${foundTarget.armor}`)
-        }
-        foundWeapon.bullets -=1;
+//             console.log(`Le diste al objetivo ${foundTarget.name}. Armadura restante: ${foundTarget.armor}`)
+//         }
+//         foundWeapon.bullets -=1;
+//     }
+//     else{
+//         console.log(`El objetivo ${foundTarget.name} ya fue derribado.`)
+//     };
+// };   
+
+//Llamando a los targets.
+
+document.addEventListener("DOMContentLoaded", function() {
+    let elementos = document.querySelectorAll("#target .containerDiana .diana, #target .terrorist, #target .teemo");
+    let tiempoEntreElementos = 1000; // Cambia este valor según tus necesidades
+    let elementosArray = Array.from(elementos);
+    let targetIndex = 0;
+  
+    function mostrarSiguienteElemento() {
+      if (targetIndex >= target.quantity) {
+        return;
+      }
+  
+      let elemento = elementosArray[targetIndex];
+      elemento.classList.remove("hidden");
+      
+      targetIndex++;
+  
+      setTimeout(mostrarSiguienteElemento, tiempoEntreElementos);
     }
-    else{
-        console.log(`El objetivo ${foundTarget.name} ya fue derribado.`)
-    };
-};
+  
+    mostrarSiguienteElemento();
+  });
