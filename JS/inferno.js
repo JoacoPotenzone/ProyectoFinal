@@ -146,23 +146,90 @@ console.log(target);
 //Llamando a los targets.
 
 document.addEventListener("DOMContentLoaded", function() {
-    let elementos = document.querySelectorAll("#target .containerDiana .diana, #target .terrorist, #target .teemo");
-    let tiempoEntreElementos = 1000; // Cambia este valor según tus necesidades
-    let elementosArray = Array.from(elementos);
-    let targetIndex = 0;
-  
-    function mostrarSiguienteElemento() {
-      if (targetIndex >= target.quantity) {
-        return;
-      }
-  
-      let elemento = elementosArray[targetIndex];
-      elemento.classList.remove("hidden");
-      
+  let dartBoard = document.querySelectorAll("#target .diana");
+  let terrorist = document.querySelectorAll(".terrorist");
+  let teemo = document.querySelectorAll(".teemo");
+  let elementTime = 1000; 
+  let elementArray = [...dartBoard, ...terrorist, ...teemo];
+  let targetIndex = 0;
+
+  function showDartBoard() {
+    if (targetIndex < dartBoard.length) {
+      let element = dartBoard[targetIndex];
+      element.style.opacity = "1"; // Mostrar el elemento estableciendo la opacidad
       targetIndex++;
-  
-      setTimeout(mostrarSiguienteElemento, tiempoEntreElementos);
+
+      setTimeout(function () {
+        showDartBoard(); // Llamar a la función de nuevo después de ocultar
+      }, elementTime);
     }
-  
-    mostrarSiguienteElemento();
+  }
+
+  function checkTargets() {
+    if (dartBoard.length === 0) {
+      // Mostrar a los terroristas solo cuando las dianas hayan sido derribadas
+      showTerrorists();
+    }
+  }
+
+  function showTerrorists() {
+    let terroristIndex = 0;
+
+    function showNextTerrorist() {
+      if (terroristIndex < terrorist.length) {
+        let terroristElement = terrorist[terroristIndex];
+        terroristElement.style.opacity = "1"; // Mostrar el terrorista
+        terroristIndex++;
+
+        setTimeout(function () {
+          showNextTerrorist(); // Llamar a la función de nuevo después de ocultar
+        }, elementTime);
+      }
+    }
+
+    // Iniciar mostrando los terroristas
+    showNextTerrorist();
+  }
+
+  elementArray.forEach(function (elemento) {
+    elemento.classList.add("pointer"); // Agregar clase para cursor de puntero
+    elemento.addEventListener("click", function () {
+      derribarElemento(elemento);
+      checkTargets(); // Verificar si todas las dianas han sido derribadas
+    });
   });
+
+  function derribarElemento(elemento) {
+    elemento.classList.add("down");
+    setTimeout(function () {
+      elemento.style.opacity = "0";
+
+      if (elemento.classList.contains("diana")) {
+        dartBoard = Array.from(dartBoard).filter(diana => diana !== elemento);
+      } else if (elemento.classList.contains("terrorist")) {
+        terrorist = Array.from(terrorist).filter(terror => terror !== elemento);
+      }
+
+      checkTargets(); // Verificar si todas las dianas han sido derribadas después de la animación
+    }, 200);
+  }
+
+  // Función para reducir el tamaño de un objetivo cuando se hace clic en él
+  dartBoard.forEach(function (diana) {
+    diana.addEventListener("click", function () {
+      diana.classList.add("down");
+      setTimeout(function () {
+        diana.style.opacity = "0";
+        dartBoard = Array.from(dartBoard).filter(target => target !== diana);
+        console.log(dartBoard.length)
+        checkTargets();
+      }, 200);
+    });
+  });
+
+  // Iniciar mostrando las dianas
+  showDartBoard();
+
+  // Mostrar a los terroristas al inicio si no hay dianas
+  checkTargets();
+});

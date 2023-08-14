@@ -6,6 +6,10 @@
 .b-container{
     background-color: rgb(146, 110, 57);
 }
+.b-container main h2{
+    font-family: 'Counter-Strike', sans-serif;
+    text-align: center;
+}
 .b-container main div {
     display: flex;
     justify-content: center;
@@ -22,6 +26,11 @@
 .b-container main div a img{
  width: 200px;
  padding: 3rem;
+}
+.rulesList ol li{
+    padding: 5px;
+    margin: 3.5px;
+    font-size: 17px;
 }
 .inferno {
     background-image: url('../img/inferno1.jpg');
@@ -47,6 +56,33 @@
     background-color: #ff0000db;
     border-radius: 50px;
     margin: 3.5rem 0 0 0;
+    position: relative;
+    animation: moveAnimation 1.95s linear infinite alternate;
+}
+.pDiana{
+    width: 25px;
+    height: 25px;
+    background-color: #ffffff;
+    margin: 12.5px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dianaP{
+    width: 12.5px;
+    height: 12.5px;
+    background-color: #ff0000db;
+    border-radius: 50px;
+
+}
+@keyframes moveAnimation{
+    0% {
+        transform: translateX(0); 
+      }
+    100% {
+        transform: translateX(1200px); 
+    }
 }
 .terrorist{
     padding: 0 0 0 10rem;
@@ -73,4 +109,12 @@
 }
 .hidden{
     display: none;
+}
+.down{
+    transform: rotate(90deg); 
+    opacity: 0;
+    transition: transform 2s ease, opacity 0.5s ease;
+}
+.pointer{
+    cursor: pointer;
 }
