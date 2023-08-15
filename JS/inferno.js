@@ -147,7 +147,7 @@ console.log(target);
 
 document.addEventListener("DOMContentLoaded", function() {
   let dartBoard = document.querySelectorAll("#target .diana");
-  let terrorist = document.querySelectorAll(".terrorist");
+  let terrorist = document.querySelectorAll("#target .terrorist");
   let teemo = document.querySelectorAll(".teemo");
   let elementTime = 1000; 
   let elementArray = [...dartBoard, ...terrorist, ...teemo];
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function showDartBoard() {
     if (targetIndex < dartBoard.length) {
       let element = dartBoard[targetIndex];
-      element.style.opacity = "1"; // Mostrar el elemento estableciendo la opacidad
+      element.classList.remove("hidden") // Mostrar el elemento estableciendo la opacidad
       targetIndex++;
 
       setTimeout(function () {
@@ -168,27 +168,23 @@ document.addEventListener("DOMContentLoaded", function() {
   function checkTargets() {
     if (dartBoard.length === 0) {
       // Mostrar a los terroristas solo cuando las dianas hayan sido derribadas
-      showTerrorists();
-    }
-  }
+      let terroristIndex = 0;
 
-  function showTerrorists() {
-    let terroristIndex = 0;
-
-    function showNextTerrorist() {
-      if (terroristIndex < terrorist.length) {
-        let terroristElement = terrorist[terroristIndex];
-        terroristElement.style.opacity = "1"; // Mostrar el terrorista
-        terroristIndex++;
-
-        setTimeout(function () {
-          showNextTerrorist(); // Llamar a la función de nuevo después de ocultar
-        }, elementTime);
+      function showNextTerrorist() {
+        if (terroristIndex < terrorist.length) {
+          let terroristElement = terrorist[terroristIndex];
+          terroristElement.classList.remove("hidden")// Mostrar el terrorista
+          terroristIndex++;
+  
+          setTimeout(function () {
+            showNextTerrorist(); // Llamar a la función de nuevo después de ocultar
+          }, 3000);
+        }
       }
+  
+      // Iniciar mostrando los terroristas
+      showNextTerrorist();
     }
-
-    // Iniciar mostrando los terroristas
-    showNextTerrorist();
   }
 
   elementArray.forEach(function (elemento) {
