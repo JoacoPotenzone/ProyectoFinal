@@ -76,60 +76,6 @@ for (const item of target) {
 
 console.log(target);
 
-// Para que el usuario elija su arma.
-
-
-// let chWeapon = prompt("Elige tu arma entre AK-47, Desert Eagle y M4:");
-  
-// const foundWeapon = weapon.find(arma => arma.name === chWeapon);
-
-//Validación para saber si se escribio correctamente.
-    
-// if (foundWeapon) {
-//         console.log("-----------------");
-//         console.log("Elegiste el: ", foundWeapon.name);
-//     }else{
-//         console.log("-----------------");
-//         console.log("Arma no encontrada o mal escrita.");
-//         alert("Por favor ingrese nuevamente el nombre del arma, tal cual como está escrito.");
-//     }
-
-//Para que el usuario elija su objetivo
-
-// let chTarget = prompt("Elige tu objetivo entre Terrorist, DartBoard y Teemo")
-
-// const foundTarget = target.find(objetivo => objetivo.name === chTarget);
-
-// if(foundTarget){
-//     console.log("-----------------");
-//     console.log("Elegiste a: " + foundTarget.name + " como objetivo");
-//     console.log("-----------------");
-// }else{
-//     console.log("-----------------");
-//     console.log("Objetivo no encontrado o mal escrito.");
-//     alert("Por favor ingrese nuevamente el nombre del objetivo, tal cual como está escrito.")
-// }
-
-// while(foundWeapon.bullets > 0 && foundTarget.armor > 0 ){
-//     const damage = foundWeapon.damage;
-
-//     if(foundTarget.armor > 0){
-//         foundTarget.armor -= damage;
-//         if(foundTarget.armor <= 0){
-//             const leftBullets = foundWeapon.remainBullets - foundWeapon.bullets;
-//             console.log(`¡Derribaste al objetivo ${foundTarget.name} con ${leftBullets} balas!`);
-//             const currentBullets = foundWeapon.remainBullets - leftBullets;
-//             console.log(`Balas restantes: ${currentBullets}.`)
-//         }else{
-            
-//             console.log(`Le diste al objetivo ${foundTarget.name}. Armadura restante: ${foundTarget.armor}`)
-//         }
-//         foundWeapon.bullets -=1;
-//     }
-//     else{
-//         console.log(`El objetivo ${foundTarget.name} ya fue derribado.`)
-//     };
-// };   
 
 //Llamando a los targets.
 
@@ -166,6 +112,8 @@ const weaponMatchs = function() {
     let elementTime = 1000; 
     let elementArray = [...dartBoard, ...terrorist, ...teemo];
     let targetIndex = 0;
+    
+    let score = 0; //Generando un puntaje por objetivo derribado
 
     function showDartBoard() {
       if (targetIndex < dartBoard.length) {
@@ -192,12 +140,27 @@ const weaponMatchs = function() {
     
             setTimeout(function () {
               showNextTerrorist(); // Llamar a la función de nuevo después de ocultar
-            }, 3000);
+            }, 2000);
+          }
+        }
+        let teemoIndex =0;
+        function showTeemo(){
+          if(dartBoard.length === 0 && terrorist.length === 0){
+            if(teemoIndex < teemo.length){
+              let teemoElement = teemo[teemoIndex];
+              teemoElement.classList.remove("hidden");
+              teemoIndex++;
+              
+              setTimeout(() => {
+                showTeemo();
+              }, 2500);
+            }
           }
         }
     
         // Iniciar mostrando los terroristas
         showNextTerrorist();
+        showTeemo();
       }
     }
 
@@ -216,12 +179,39 @@ const weaponMatchs = function() {
 
         if (elemento.classList.contains("diana")) {
           dartBoard = Array.from(dartBoard).filter(diana => diana !== elemento);
+          score += 100;
         } else if (elemento.classList.contains("terrorist")) {
           terrorist = Array.from(terrorist).filter(terror => terror !== elemento);
+          score += 250;
+        }else if(elemento.classList.contains("teemo")){
+          teemo = Array.from(teemo).filter(teeni => teemo !== elemento);
+          score+= 500
         }
-
+        localStorage.setItem('score', score);
+        storedScore = localStorage.getItem("score");
+        
+        
+      if(storedScore){
+        score = parseInt(storedScore)
+        console.log("Se guardo el puntaje en localStorage:", storedScore);
+        const puntaje = document.getElementById("puntaje")
+        puntaje.innerHTML = `<p style='color: red; font-size: 20px; margin: 2px; '> 
+        Puntaje por objetivos derribados: ${score} </p>`;
+      }else{
+        console.log("no se guardo el puntaje.")
+      }
+        
         checkTargets(); // Verificar si todas las dianas han sido derribadas después de la animación
       }, 200);
+      if(elemento === 0){
+
+        //volver al menu principal
+        const menu = document.getElementbyId("menu")
+        menu.innerHTML =`<div>
+        <h3>Volver al Inicio</h3>
+        <a href="../index.html">Inicio</a>
+        </div>`
+      }
     }
 
 
