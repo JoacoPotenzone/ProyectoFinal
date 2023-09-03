@@ -1,40 +1,27 @@
+//Array de armas hecho desde JSON y utilizando promises para invocarlas
+
+let weapon;
+
+function cargarArmasDesdeJSON() {
+  fetch("../JSON/armas.json") 
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('No se pudo cargar el archivo JSON de armas.');
+      }
+      return response.json(); 
+    })
+    .then(data => {
+      console.log('Datos de armas cargados:', data);
+      weapon = data;
+
+    })
+    .catch(error => {
+      console.error('Error al cargar armas:', error);
+    });
+};
 
 
-
-//Creando Array de las armas.
-const weapon = new Array();
-weapon.push("AK-47");
-weapon.push("Desert Eagle");
-weapon.push("M4");
- 
-
-//Agregandole propiedades a las armas.
-
-weapon.forEach((item, index) => {
-    weapon[0] = {
-        name : 'AK-47',
-        bullets : 30,
-        remainBullets: 30,
-        damage : 50
-    };
-
-    weapon[1] = {
-        name : 'Desert Eagle',
-        bullets : 7,
-        remainBullets: 7,
-        damage : 300
-    };
-
-    weapon[2] = {
-        name : 'M4',
-        bullets : 30,
-        remainBullets : 30,
-        damage : 40
-    };
-});
-
-console.log(weapon)
-
+cargarArmasDesdeJSON();
 //Creando Array de objetivos.
 
 const target = new Array();
@@ -85,27 +72,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
   
   acceptButton.addEventListener("click", function() {
-    
-
 });
+function manejarPropiedadesDelArma(weapon) {
+  const nombre = weapon.name;
+  const balas = weapon.bullets;
+  const daño = weapon.damage;
+  const balasRest = weapon.remainBullets;
+  const cadenciaDeTiro = weapon.cadence;
+
+  console.log('Nombre del arma:', nombre);
+  console.log('Cantidad de balas:', balas);
+  console.log('Daño del arma:', daño);
+  console.log('Balas restantes: ', balasRest);
+  console.log('Cadencia de tiro: ', cadenciaDeTiro);
+
+}
 
 acceptButton.addEventListener("click", function() {
   const inputValue = weaponInput.value;
-    const weaponMatch = weapon.find(weapon => weapon.name === inputValue);
+  const weaponMatch = weapon.weapon.find(weapon => weapon.name === inputValue);
 
     if (weaponMatch) {
       console.log("Arma ingresada:", weaponMatch.name);
-      // Cerrar el formulario
       document.querySelector(".inptArma").style.display = "none";
-
-      //Call the weapon matchs function
-      weaponMatchs();
+      manejarPropiedadesDelArma(weaponMatch);
     } else {
       console.log("Tuviste un error de tipeo o ingresaste mal el nombre del arma. Por favor vuelva a ingresarlo.");
     }
   });
 
-const weaponMatchs = function() {
+  const weaponMatchs = function() {
     let dartBoard = document.querySelectorAll("#target .diana");
     let terrorist = document.querySelectorAll("#target .terrorist");
     let teemo = document.querySelectorAll(".teemo");
@@ -150,7 +146,6 @@ const weaponMatchs = function() {
               let teemoElement = teemo[teemoIndex];
               teemoElement.classList.remove("hidden");
               teemoIndex++;
-              
               setTimeout(() => {
                 showTeemo();
               }, 2500);
@@ -161,14 +156,16 @@ const weaponMatchs = function() {
         // Iniciar mostrando los terroristas
         showNextTerrorist();
         showTeemo();
+
       }
     }
 
+    // Agregar listeners a los elementos para derribarlos y verificar objetivos derribados
     elementArray.forEach(function (elemento) {
-      elemento.classList.add("pointer"); // Agregar clase para cursor de puntero
+      elemento.classList.add("pointer");
       elemento.addEventListener("click", function () {
         derribarElemento(elemento);
-        checkTargets(); // Verificar si todas las dianas han sido derribadas
+        checkAllTargetsDown();
       });
     });
 
@@ -184,13 +181,13 @@ const weaponMatchs = function() {
           terrorist = Array.from(terrorist).filter(terror => terror !== elemento);
           score += 250;
         }else if(elemento.classList.contains("teemo")){
-          teemo = Array.from(teemo).filter(teeni => teemo !== elemento);
-          score+= 500
+          teemo = Array.from(teemo).filter(teemo => teemo !== elemento);
+          score+= 500 
         }
+        
         localStorage.setItem('score', score);
         storedScore = localStorage.getItem("score");
-        
-        
+
       if(storedScore){
         score = parseInt(storedScore)
         console.log("Se guardo el puntaje en localStorage:", storedScore);
@@ -203,18 +200,7 @@ const weaponMatchs = function() {
         
         checkTargets(); // Verificar si todas las dianas han sido derribadas después de la animación
       }, 200);
-      if(elemento === 0){
-
-        //volver al menu principal
-        const menu = document.getElementbyId("menu")
-        menu.innerHTML =`<div>
-        <h3>Volver al Inicio</h3>
-        <a href="../index.html">Inicio</a>
-        </div>`
-      }
-    }
-
-
+    };
     // Función para reducir el tamaño de un objetivo cuando se hace clic en él
     dartBoard.forEach(function (diana) {
       diana.addEventListener("click", function () {
@@ -227,12 +213,32 @@ const weaponMatchs = function() {
         }, 200);
       });
     });
+    weaponMatchs();
 
+    function goToMainMenu() {
+      const menu = document.getElementById("menu");
+      menu.innerHTML += `
+        <div>
+          <h2>¡Felicitaciones completaste Inferno!</h2>
+          <p>Tienes ${score} puntos. <br> Vuelve al menú principal para seguir sumando puntos.</p>
+          <a href="../index.html"><h3>Volver al Menú</h3></a>
+        </div>`;
+    }
+
+    // Verificar si todas las dianas, terroristas y teemo han sido derribados
+    function checkAllTargetsDown() {
+      if (dartBoard.length === 0 && terrorist.length === 0 && teemo.length === 0) {
+        goToMainMenu();
+      }
+    }
+    
     // Iniciar mostrando las dianas
     showDartBoard();
 
     // Mostrar a los terroristas al inicio si no hay dianas
     checkTargets();
+
+    checkAllTargetsDown();
   }
 });  
 

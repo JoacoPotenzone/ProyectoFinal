@@ -1,0 +1,31 @@
+{
+    "weapon": [  {
+        "name" : "AK-47",
+        "bullets": 30,
+        "damage": 50,
+        "remainBullets": 30,
+        "cadence": 10
+    },
+    {
+        "name" : "M4A1",
+        "bullets": 30,
+        "damage": 30,
+        "remainBullets": 30,
+        "cadence": 12
+    },
+    {
+        "name" : "Desert Eagle",
+        "bullets": 31,
+        "damage": 100,
+        "remainBullets": 31,
+        "cadence": 3
+    },
+    {
+        "name": "AWP",
+        "bullets": 24,
+        "damage": 300,
+        "remainBullets": 24,
+        "cadence": 1
+    }
+    ]
+}
