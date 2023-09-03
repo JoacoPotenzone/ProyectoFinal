@@ -1,0 +1,18 @@
+{
+    "targets": [  {
+        "name" : "DartBoard",
+        "armor": 50,
+        "quantity": 5
+    },
+    {
+        "name" : "Terrorist",
+        "armor": 100,
+        "quantity": 3
+    },
+    {
+        "name" : "Teemo",
+        "armor": 200,
+        "quantity": 1
+    }
+    ]
+}

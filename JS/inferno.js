@@ -22,47 +22,28 @@ function cargarArmasDesdeJSON() {
 
 
 cargarArmasDesdeJSON();
-//Creando Array de objetivos.
 
-const target = new Array();
-target.push("Terrorist");
-target.push("DartBoard");
-target.push("Teemo")
+//Array de objetivos desde JSON
 
-//Propiedades de los objetivos. (con For Of para practicar lo que vimos en clase.)
+function cargarObjetivosDesdeJSON() {
+  fetch("../JSON/objetivos.json") 
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('No se pudo cargar el archivo JSON de objetivos.');
+      }
+      return response.json(); 
+    })
+    .then(data => {
+      console.log('Datos de objetivos cargados:', data);
+      target = data;
 
-for (const item of target) {
-    const terroProp = {
-      name: 'Terrorist',
-      armor: 100,
-      remainArmor: 100,
-      quantity: 3
-    };
-    target[0] = terroProp;
+    })
+    .catch(error => {
+      console.error('Error al cargar objetivos:', error);
+    });
 };
 
-for (const item of target) {
-    const dartProp = {
-      name: 'DartBoard',
-      armor: 50,
-      remain: 50,
-      quantity: 5
-    };
-    target[1] = dartProp;
-};
-
-for (const item of target) {
-    const teemoProp = {
-      name: 'Teemo',
-      armor: 200,
-      remainArmor: 200,
-      quantity: 1
-    };
-    target[2] = teemoProp;
-};
-
-console.log(target);
-
+cargarObjetivosDesdeJSON();
 
 //Llamando a los targets.
 
@@ -70,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const weaponInput = document.getElementById("weaponInput");
   const acceptButton = document.getElementById("acceptButton");
 
-  
   acceptButton.addEventListener("click", function() {
 });
 function manejarPropiedadesDelArma(weapon) {
@@ -152,7 +132,7 @@ acceptButton.addEventListener("click", function() {
             }
           }
         }
-    
+        
         // Iniciar mostrando los terroristas
         showNextTerrorist();
         showTeemo();
@@ -160,14 +140,10 @@ acceptButton.addEventListener("click", function() {
       }
     }
 
-    // Agregar listeners a los elementos para derribarlos y verificar objetivos derribados
-    elementArray.forEach(function (elemento) {
-      elemento.classList.add("pointer");
-      elemento.addEventListener("click", function () {
-        derribarElemento(elemento);
-        checkAllTargetsDown();
-      });
-    });
+
+
+
+
 
     function derribarElemento(elemento) {
       elemento.classList.add("down");
@@ -200,45 +176,43 @@ acceptButton.addEventListener("click", function() {
         
         checkTargets(); // Verificar si todas las dianas han sido derribadas después de la animación
       }, 200);
+
     };
-    // Función para reducir el tamaño de un objetivo cuando se hace clic en él
-    dartBoard.forEach(function (diana) {
-      diana.addEventListener("click", function () {
-        diana.classList.add("down");
-        setTimeout(function () {
-          diana.style.opacity = "0";
-          dartBoard = Array.from(dartBoard).filter(target => target !== diana);
-          console.log(dartBoard.length)
-          checkTargets();
-        }, 200);
+
+    // Agregar listeners a los elementos para derribarlos y verificar objetivos derribados
+    elementArray.forEach(function (elemento) {
+      elemento.classList.add("pointer");
+      elemento.addEventListener("click", function () {
+        derribarElemento(elemento);
+        checkAllTargetsDown(elemento);
       });
     });
-    weaponMatchs();
 
-    function goToMainMenu() {
-      const menu = document.getElementById("menu");
-      menu.innerHTML += `
-        <div>
-          <h2>¡Felicitaciones completaste Inferno!</h2>
-          <p>Tienes ${score} puntos. <br> Vuelve al menú principal para seguir sumando puntos.</p>
-          <a href="../index.html"><h3>Volver al Menú</h3></a>
-        </div>`;
+    let juegoTerminado = false;
+
+    function menu(){
+      const mensajeMenu = document.getElementById("menu")
+      mensajeMenu.innerHTML += `            <div> 
+              <h3>¡Felicitaciones! Superaste el primer mapa <strong>Inferno</strong></h3> 
+              con ${score} de puntaje. Vuelve al menu para seguir sumando puntos</p>
+              <a href="../index.html">Menú</a>
+          </div>`
     }
 
-    // Verificar si todas las dianas, terroristas y teemo han sido derribados
-    function checkAllTargetsDown() {
-      if (dartBoard.length === 0 && terrorist.length === 0 && teemo.length === 0) {
-        goToMainMenu();
+    function checkAllTargetsDown(){
+      if(dartBoard.length === 0 && terrorist.length === 0 && teemo.length === 0){
+        juegoTerminado = true;
+        menu();
       }
     }
-    
-    // Iniciar mostrando las dianas
+
+    // Iniciar mostrando las dians
     showDartBoard();
 
     // Mostrar a los terroristas al inicio si no hay dianas
     checkTargets();
-
-    checkAllTargetsDown();
   }
+
+  weaponMatchs();
 });  
 
