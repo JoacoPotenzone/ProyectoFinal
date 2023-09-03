@@ -23,6 +23,21 @@ function cargarArmasDesdeJSON() {
 
 cargarArmasDesdeJSON();
 
+function manejarPropiedadesDelArma(weapon) {
+  const nombre = weapon.name;
+  const balas = weapon.bullets;
+  const daño = weapon.damage;
+  const balasRest = weapon.remainBullets;
+  const cadenciaDeTiro = weapon.cadence;
+
+  console.log('Nombre del arma:', nombre);
+  console.log('Cantidad de balas:', balas);
+  console.log('Daño del arma:', daño);
+  console.log('Balas restantes: ', balasRest);
+  console.log('Cadencia de tiro: ', cadenciaDeTiro);
+
+}
+
 //Array de objetivos desde JSON
 
 function cargarObjetivosDesdeJSON() {
@@ -45,7 +60,6 @@ function cargarObjetivosDesdeJSON() {
 
 cargarObjetivosDesdeJSON();
 
-//Llamando a los targets.
 
 document.addEventListener("DOMContentLoaded", function() {
   const weaponInput = document.getElementById("weaponInput");
@@ -53,20 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   acceptButton.addEventListener("click", function() {
 });
-function manejarPropiedadesDelArma(weapon) {
-  const nombre = weapon.name;
-  const balas = weapon.bullets;
-  const daño = weapon.damage;
-  const balasRest = weapon.remainBullets;
-  const cadenciaDeTiro = weapon.cadence;
 
-  console.log('Nombre del arma:', nombre);
-  console.log('Cantidad de balas:', balas);
-  console.log('Daño del arma:', daño);
-  console.log('Balas restantes: ', balasRest);
-  console.log('Cadencia de tiro: ', cadenciaDeTiro);
-
-}
 
 acceptButton.addEventListener("click", function() {
   const inputValue = weaponInput.value;
@@ -178,7 +179,6 @@ acceptButton.addEventListener("click", function() {
       }, 200);
 
     };
-
     // Agregar listeners a los elementos para derribarlos y verificar objetivos derribados
     elementArray.forEach(function (elemento) {
       elemento.classList.add("pointer");
@@ -192,9 +192,9 @@ acceptButton.addEventListener("click", function() {
 
     function menu(){
       const mensajeMenu = document.getElementById("menu")
-      mensajeMenu.innerHTML += `            <div> 
+      mensajeMenu.innerHTML += `<div> 
               <h3>¡Felicitaciones! Superaste el primer mapa <strong>Inferno</strong></h3> 
-              con ${score} de puntaje. Vuelve al menu para seguir sumando puntos</p>
+              <p>Hiciste ${score}. Vuelve al menu para seguir sumando puntos</p>
               <a href="../index.html">Menú</a>
           </div>`
     }
