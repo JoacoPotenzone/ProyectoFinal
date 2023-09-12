@@ -130,7 +130,7 @@ acceptButton.addEventListener("click", function() {
               setTimeout(() => {
                 showTeemo();
               }, 2500);
-            }
+            } else(checkAllTargetsDown());
           }
         }
         
@@ -140,16 +140,10 @@ acceptButton.addEventListener("click", function() {
 
       }
     }
-
-
-
-
-
-
     function derribarElemento(elemento) {
       elemento.classList.add("down");
       setTimeout(function () {
-        elemento.style.opacity = "0";
+        elemento.style.visibility = "none";
 
         if (elemento.classList.contains("diana")) {
           dartBoard = Array.from(dartBoard).filter(diana => diana !== elemento);
@@ -169,7 +163,7 @@ acceptButton.addEventListener("click", function() {
         score = parseInt(storedScore)
         console.log("Se guardo el puntaje en localStorage:", storedScore);
         const puntaje = document.getElementById("puntaje")
-        puntaje.innerHTML = `<p style='color: red; font-size: 20px; margin: 2px; '> 
+        puntaje.innerHTML = `<p style='color: red; font-size: 20px; margin: 2px; background-color: black; width: 350px; '> 
         Puntaje por objetivos derribados: ${score} </p>`;
       }else{
         console.log("no se guardo el puntaje.")
@@ -184,7 +178,6 @@ acceptButton.addEventListener("click", function() {
       elemento.classList.add("pointer");
       elemento.addEventListener("click", function () {
         derribarElemento(elemento);
-        checkAllTargetsDown(elemento);
       });
     });
 
@@ -194,7 +187,7 @@ acceptButton.addEventListener("click", function() {
       const mensajeMenu = document.getElementById("menu")
       mensajeMenu.innerHTML += `<div> 
               <h3>¡Felicitaciones! Superaste el primer mapa <strong>Inferno</strong></h3> 
-              <p>Hiciste ${score}. Vuelve al menu para seguir sumando puntos</p>
+              <p>Hiciste ${score} puntos. Vuelve al menu para seguir sumando puntos</p>
               <a href="../index.html">Menú</a>
           </div>`
     }
