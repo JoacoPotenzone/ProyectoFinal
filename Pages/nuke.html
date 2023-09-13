@@ -14,7 +14,10 @@
         <a-assets>
             <img src="../img/somo_bricks.jpg" alt="" id="pared">
             <img src="../img/somo.jpg" alt="" id="piso">
-            <img src="../img/madera.jpg" alt="" id="caja">
+            <img src="../img/AK47.png" alt="" id="weapon">
+            <img src="../img/m4a1.png" alt="" id="weapon1">
+            <img src="../img/pngwing.com.png" alt="" id="weapon2">
+            <img src="../img/DK (2).png" alt="" id="weapon3">
         </a-assets>
 
         <a-sun-sky material="sunPosition: 0 1 0"></a-sun-sky>
@@ -24,8 +27,20 @@
             <a-cursor fuse="true" fuse-timeout="800"></a-cursor>
         </a-entity>
 
-        <a-entity id="enemie">
+        <a-entity id="armas">
+            <a-image src="#weapon" width="3.5px"></a-image>
+        </a-entity>
 
+        <a-entity id="armas1">
+            <a-image src="#weapon1" width="3.5px"></a-image>
+        </a-entity>
+
+        <a-entity id="armas2" >
+            <a-image src="#weapon2" width="2.8px"></a-image>
+        </a-entity>
+
+        <a-entity id="armas3" >
+            <a-image src="#weapon3" width="1.5px"></a-image>
         </a-entity>
         
         <a-grid static-body src="#piso"></a-grid>
